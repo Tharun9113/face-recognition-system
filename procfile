@@ -1,0 +1,2 @@
+echo "web: gunicorn
+FACE-RECOGNITION-SYSTEM.wsgi:application" > procfile
