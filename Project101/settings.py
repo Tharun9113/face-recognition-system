@@ -10,14 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 
 """
-import dj_database_url
-from decouple import from django.conf import settings
 import os
 from pathlib import Path
-
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+    )
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-38axrzh@n80vyv^o#2nfbhpx-=d7%jlq1v(gban69ygp4m5n0-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,7 +65,7 @@ ROOT_URLCONF = 'Project101.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR,'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +85,9 @@ WSGI_APPLICATION = 'Project101.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default':dj_database_url.config(default=config('DATABASE_URL'))
+    'default': dj_database_url.config(default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'))
+
+
 }
 
 
@@ -133,4 +141,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = 'login'  # Example: 'login' if your login URL is '/login/'
 ALLOWED_HOSTS = ['*']
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+STATICFILES_DIRS = [BASE_DIR / 'static']  # (optional, if using a local static/ dir)
+STATIC_ROOT = BASE_DIR / 'staticfiles'    # Render looks here after collectstatic
