@@ -12,27 +12,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-    )
-}
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-38axrzh@n80vyv^o#2nfbhpx-=d7%jlq1v(gban69ygp4m5n0-'
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
 
 
 ALLOWED_HOSTS = ['*']
@@ -83,12 +73,6 @@ WSGI_APPLICATION = 'Project101.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'))
-
-
-}
 
 
 # Password validation
@@ -141,6 +125,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = 'login'  # Example: 'login' if your login URL is '/login/'
 ALLOWED_HOSTS = ['*']
+# settings.py
+DEBUG = True
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # For SQLite
+        'NAME': BASE_DIR / 'db.sqlite3',  # Path to your database
+    }
+}
 
-STATICFILES_DIRS = [BASE_DIR / 'static']  # (optional, if using a local static/ dir)
-STATIC_ROOT = BASE_DIR / 'staticfiles'    # Render looks here after collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

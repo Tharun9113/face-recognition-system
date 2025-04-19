@@ -282,21 +282,21 @@ def student_attendance_list(request):
     return render(request, 'student_attendance_list.html', context)
 
 
-# def home(request):
-#     total_students = Student.objects.count()
-#     total_attendance = Attendance.objects.count()
-#     total_check_ins = Attendance.objects.filter(check_in_time__isnull=False).count()
-#     total_check_outs = Attendance.objects.filter(check_out_time__isnull=False).count()
-#     total_cameras = CameraConfiguration.objects.count()
+def home(request):
+    total_students = Student.objects.count()
+    total_attendance = Attendance.objects.count()
+    total_check_ins = Attendance.objects.filter(check_in_time__isnull=False).count()
+    total_check_outs = Attendance.objects.filter(check_out_time__isnull=False).count()
+    total_cameras = CameraConfiguration.objects.count()
 
-#     context = {
-#         'total_students': total_students,
-#         'total_attendance': total_attendance,
-#         'total_check_ins': total_check_ins,
-#         'total_check_outs': total_check_outs,
-#         'total_cameras': total_cameras,
-#     }
-#     return render(request, 'home.html', context)
+    context = {
+        'total_students': total_students,
+        'total_attendance': total_attendance,
+        'total_check_ins': total_check_ins,
+        'total_check_outs': total_check_outs,
+        'total_cameras': total_cameras,
+    }
+    return render(request, 'home.html', context)
 
 
 # Custom user pass test for admin access
@@ -454,8 +454,3 @@ def camera_config_delete(request, pk):
 
     # Render the delete confirmation template with the configuration data
     return render(request, 'camera_config_delete.html', {'config': config})
-from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse("✅ Your server is working!")
-
